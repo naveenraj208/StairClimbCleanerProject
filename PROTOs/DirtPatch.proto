@@ -1,0 +1,30 @@
+#VRML_SIM R2025a utf8
+PROTO DirtPatch [
+  field SFVec3f translation 0 0 0
+  field SFFloat size 0.25
+  field SFColor color 0.2 0.15 0.05
+] {
+  Solid {
+    translation IS translation
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+          roughness 0.9
+          metalness 0.0
+        }
+        geometry Cylinder {
+          radius IS size
+          height 0.01
+        }
+      }
+    ]
+    boundingObject Cylinder {
+      radius IS size
+      height 0.01
+    }
+    physics Physics {
+      mass 0.0001
+    }
+  }
+}

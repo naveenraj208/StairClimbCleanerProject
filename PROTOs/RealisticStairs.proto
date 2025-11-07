@@ -1,0 +1,64 @@
+#VRML_SIM R2025a utf8
+PROTO RealisticStairs [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFColor color 0.4 0.4 0.4
+  field SFInt32 steps 5
+  field SFFloat tread 0.28
+  field SFFloat riser 0.16
+  field SFFloat width 1.0
+] {
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      %{
+      # This block auto-generates steps
+      %}
+      Transform {
+        children [
+          %{
+          # Loop over steps
+          for i in range(fields.steps.value):
+            y = fields.riser.value * i
+            z = fields.tread.value * i
+            print(f'''
+            Transform {{
+              translation 0 {y/2} {z}
+              children [
+                Shape {{
+                  appearance PBRAppearance {{
+                    baseColor {fields.color.value.x} {fields.color.value.y} {fields.color.value.z}
+                    roughness 0.5
+                    metalness 0.0
+                  }}
+                  geometry Box {{
+                    size {fields.width.value} {fields.riser.value} {fields.tread.value}
+                  }}
+                }}
+              ]
+            }}
+            ''')
+          end
+          %}
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        %{
+        for i in range(fields.steps.value):
+          y = fields.riser.value * i
+          z = fields.tread.value * i
+          print(f'''
+          Box {{
+            size {fields.width.value} {fields.riser.value} {fields.tread.value}
+            translation 0 {y/2} {z}
+          }}
+          ''')
+        end
+        %}
+      ]
+    }
+  }
+}
