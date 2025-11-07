@@ -1,0 +1,157 @@
+#VRML_SIM R2023b utf8
+
+WorldInfo {
+  basicTimeStep 16
+}
+
+Viewpoint {
+  orientation -0.35 0.87 0.34 1.32
+  position 1.0 0.6 1.6
+  fieldOfView 0.7
+}
+
+TexturedBackground { }
+TexturedBackgroundLight { }
+
+# ==============================
+# FLOOR
+# ==============================
+Solid {
+  translation 0 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.6 0.6 0.6
+        roughness 0.4
+      }
+      geometry Box {
+        size 5 0.1 5
+      }
+    }
+  ]
+  boundingObject Box {
+    size 5 0.1 5
+  }
+  physics Physics { }
+}
+
+# ==============================
+# STAIRS (8 steps)
+# ==============================
+DEF STAIRS Group {
+  children [
+    Transform {
+      translation 0.5 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 1.5 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.15 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 1.2 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.25 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 1.0 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.35 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 0.8 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.45 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 0.6 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.55 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 0.5 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.65 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 0.4 }
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.5 0.75 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.4 0.4 0.4
+          }
+          geometry Box { size 0.5 0.1 0.3 }
+        }
+      ]
+    }
+  ]
+}
+
+# ==============================
+# ROBOT (AUTO-LOADED)
+# ==============================
+StairClimbCleaner {
+  translation 0 0.08 0
+  rotation 0 1 0 0
+  name "stair_cleaning_bot"
+}
+
+# ==============================
+# LIGHT
+# ==============================
+DirectionalLight {
+  direction -1 -1 -0.3
+  intensity 1.0
+  color 1 1 1
+}

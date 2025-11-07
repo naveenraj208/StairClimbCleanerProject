@@ -1,0 +1,186 @@
+#VRML_SIM R2023b utf8
+
+PROTO StairClimbCleaner [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 1 0 0
+  field SFString name "StairClimbCleaner"
+] {
+
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+
+  controller "stair_climb_controller"
+  controllerArgs []
+
+  children [
+    # ------------------------------------------------------
+    # Base Body
+    # ------------------------------------------------------
+    Solid {
+      name "body"
+      translation 0 0.05 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.6
+            roughness 0.3
+            metalness 0.1
+          }
+          geometry Box {
+            size 0.25 0.08 0.18
+          }
+        }
+      ]
+      boundingObject Box {
+        size 0.25 0.08 0.18
+      }
+      physics Physics { }
+    }
+
+    # ------------------------------------------------------
+    # Left Wheel
+    # ------------------------------------------------------
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.12 0.03 0.08
+      }
+      device [
+        RotationalMotor {
+          name "left_motor"
+          maxTorque 5
+        }
+      ]
+      endPoint Solid {
+        translation 0.12 0.03 0.08
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.2
+            }
+            geometry Cylinder {
+              radius 0.04
+              height 0.02
+            }
+          }
+        ]
+        boundingObject Cylinder {
+          radius 0.04
+          height 0.02
+        }
+        physics Physics { }
+      }
+    }
+
+    # ------------------------------------------------------
+    # Right Wheel
+    # ------------------------------------------------------
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.12 0.03 -0.08
+      }
+      device [
+        RotationalMotor {
+          name "right_motor"
+          maxTorque 5
+        }
+      ]
+      endPoint Solid {
+        translation 0.12 0.03 -0.08
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.2 0.2 0.2
+            }
+            geometry Cylinder {
+              radius 0.04
+              height 0.02
+            }
+          }
+        ]
+        boundingObject Cylinder {
+          radius 0.04
+          height 0.02
+        }
+        physics Physics { }
+      }
+    }
+
+    # ------------------------------------------------------
+    # Front Distance Sensor
+    # ------------------------------------------------------
+    DistanceSensor {
+      name "front_distance"
+      translation 0.14 0.06 0
+      rotation 0 1 0 0
+      lookupTable [ 0 0 0, 1 1 0 ]
+      fieldOfView 0.8
+      range 1.0
+    }
+
+    # ------------------------------------------------------
+    # Bottom Distance Sensor (stair edge detection)
+    # ------------------------------------------------------
+    DistanceSensor {
+      name "bottom_distance"
+      translation 0.05 0.01 0
+      rotation 1 0 0 -1.57
+      lookupTable [ 0 0 0, 1 1 0 ]
+      fieldOfView 1.0
+      range 0.5
+    }
+
+    # ------------------------------------------------------
+    # IMU (Inertial Unit)
+    # ------------------------------------------------------
+    InertialUnit {
+      name "imu"
+      translation 0 0.07 0
+    }
+
+    # ------------------------------------------------------
+    # Cleaning Brush (rotating)
+    # ------------------------------------------------------
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor 0.13 0.025 0
+      }
+      device [
+        RotationalMotor {
+          name "cleaner_motor"
+          maxTorque 1
+        }
+      ]
+      endPoint Solid {
+        translation 0.13 0.025 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.9 0.9 0.2
+            }
+            geometry Sphere {
+              radius 0.04
+            }
+          }
+        ]
+        boundingObject Sphere {
+          radius 0.04
+        }
+        physics Physics { }
+      }
+    }
+  ]
+
+  # --------------------------------------------------
+  # Physics + bounding
+  # --------------------------------------------------
+  boundingObject Box {
+    size 0.25 0.08 0.18
+  }
+  physics Physics { density 200 }
+}
+}
