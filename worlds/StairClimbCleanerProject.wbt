@@ -46,14 +46,15 @@ RealisticStairs {
   color 0.3 0.3 0.3
 }
 
-# ✅ Robot instance
+
 StairClimbCleaner {
   name "CleanerBot"
   translation 0 0 0.1
   rotation 0 1 0 0
+  controller "controller "stair_cleaner_advanced""
 }
 
-# ✅ Dirt
+
 DirtPatch { translation 0.3 0 0.1 }
 DirtPatch { translation 0.8 0 0.1 }
 DirtPatch { translation 1.2 0 0.1 }
